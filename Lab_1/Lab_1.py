@@ -21,3 +21,4 @@ book.append({"Room_number": 404, "Surname": 'Найденов',
              "Arrival_time": (21, 30), "Departure_time": (23, 0),
              "Guest_info": 'Морозов', "Document": 'паспорт'})
 print(book)
+
