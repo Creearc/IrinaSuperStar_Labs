@@ -23,3 +23,20 @@ class Room(object):
         self.owner = Owner(owner, number)
         self.time = MyTime(time)
         self.visitor = Visitor(visitor, document)
+
+def test(data, space):
+    for s in data.__dir__():
+        if s == "__class__": break
+        attr = data.__getattribute__(s).__repr__()
+        if attr[1:10] == "built-in" or attr[1:10] == "method-wr": break
+        print("%s%s" % (space, attr))
+        test(data.__getattribute__(s), space + "  ")
+
+
+
+if __name__ == "__main__":
+    #t = MyTime((10, 9))
+    #print(t.hour)
+    r = Room(103, 'Bot1', (10, 8),'Bot2', 'Passport')
+    #print(r.number, r.time.hour, r.owner.name, r.visitor.document)
+    test(r, "")
