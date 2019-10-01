@@ -22,10 +22,11 @@ class MyTime(object):
 
 
 class Room(object):
-    def __init__(self, number, owner, time, visitor, document):
+    def __init__(self, number, owner, time_in, time_out, visitor, document):
         self.number = number
         self.owner = Owner(owner, number)
-        self.time = MyTime(time)
+        self.time_in = MyTime(time_in)
+        self.time_out = MyTime(time_out)
         self.visitor = Visitor(visitor, document)
 
 
@@ -39,9 +40,12 @@ def test(data, space):
 
 
 if __name__ == "__main__":
-    # t = MyTime((10, 9))
-    # print(t.hour)
-    r = Room(103, 'Назарова', (10, 8), 'Рассохин', 'Паспорт')
-    # print(r.number, r.time.hour, r.owner.name, r.visitor.document)
-    test(r, "")
+    r = []
+    r.append(Room(103, 'Назарова', (22, 5), (10, 8), 'Рассохин', 'Паспорт'))
+    r.append(Room(603, 'Баринов', (20, 50), (23, 0), 'Боронников', 'Снилс'))
+    r.append(Room(304, 'Балезина', (21, 10), (22, 15), 'Яковлева', 'Пропуск'))
+    r.append(Room(404, 'Малышев', (19, 45), (22, 40), 'Морозов', 'Паспорт'))
+    for i in r:
+        print()
+        test(i, "")
 
