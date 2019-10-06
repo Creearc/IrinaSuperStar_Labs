@@ -47,15 +47,15 @@ void loop(void)
   int froll  = (atan2(filtered.YAxis, filtered.ZAxis)*180.0)/M_PI;
 
   // Output
-  Serial.print(" Pitch = ");
-  Serial.print(pitch);
-  Serial.print(" Roll = ");
-  Serial.print(roll);
+  //Serial.print(" Pitch = ");
+  //Serial.print(pitch);
+  //Serial.print(" Roll = ");
+  //Serial.print(roll);
 
   // Output (filtered)
-  Serial.print(" (filter)Pitch = ");
-  Serial.print(fpitch);
-  Serial.print(" (filter)Roll = ");
+  //Serial.print(" (filter)Pitch = ");
+  Serial.print(fpitch); Serial.print("/");
+  //Serial.print(" (filter)Roll = ");
   Serial.print(froll);
   Serial.println();
   lcd.setCursor(0, 0);
