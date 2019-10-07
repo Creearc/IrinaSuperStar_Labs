@@ -14,7 +14,7 @@ void setup(void)
   Serial.begin(9600);
 
   // Initialize ADXL345
-  Serial.println("Initialize ADXL345");
+  //Serial.println("Initialize ADXL345");
 
   if (!accelerometer.begin())
   {

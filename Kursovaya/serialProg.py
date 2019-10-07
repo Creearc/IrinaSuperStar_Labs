@@ -1,12 +1,15 @@
 import serial
 
-ser = serial.Serial('COM6', 9600, timeout=0,
-                    parity=serial.PARITY_EVEN, rtscts=1)
+ser = serial.Serial('COM8', 9600, timeout=0)
 while True:
-    s = ser.read()
+    s = ser.read(10)
     if s != b'':
+        s = str(s, 'utf-8').split('/')
         print(s)
-    if s == b'1':
-        ser.write(b'0')
+        if len(s) < 2:
+            continue
+        rx = s[0]
+        ry = s[1][:-2]
+        print(rx, ry)
 
 ser.close() 
