@@ -1,6 +1,6 @@
 class Person(object):
     def __init__(self, name):
-        self.name = name
+        self.name = name 
 
 
 class Owner(Person):
@@ -32,9 +32,11 @@ class Room(object):
 
 def test(data, space):
     for s in data.__dir__():
-        if s == "__class__": break
+        if s == "__class__":
+            break
         attr = data.__getattribute__(s).__repr__()
-        if attr[1:10] == "built-in" or attr[1:10] == "method-wr": break
+        if attr[1:10] == "built-in" or attr[1:10] == "method-wr":
+            break
         print("%s%s" % (space, attr))
         test(data.__getattribute__(s), space + "  ")
 
