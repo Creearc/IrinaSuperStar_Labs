@@ -19,9 +19,8 @@ def getind(cur, old):
         ln = ((x1 - x0) ** 2 + (y1 - y0) ** 2) ** 0.5
         if (l == -1 or l > ln) and ln < 150.0:
             l = ln
-            position = old[i]
             ind = i
-    return ind, (position[0], position[1], cur[2], cur[3])
+    return ind
         
     
 trackers = cv2.MultiTracker()
@@ -59,9 +58,9 @@ while True:
         pos_temp = old_pos.copy()
         if len(old_pos) > 0:
             for p in range(len(boxes)):
-                ind, position = getind(boxes[p], old_pos)
+                ind = getind(boxes[p], old_pos)
                 if ind != -1:
-                    pos_temp[ind] = position
+                    pos_temp[ind] = boxes[p]
                 else:
                     pos_temp.append(position)
                 cv2.putText(frame, str(ind), (int(position[0]), int(position[1]) - 20),
