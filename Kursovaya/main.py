@@ -60,7 +60,7 @@ while True:
                 if ind != -1:
                     pos_temp[ind] = boxes[p]
                 else:
-                    pos_temp.append(position)
+                    pos_temp.append(boxes[p])
                 cv2.putText(frame, str(ind), (int(position[0]), int(position[1]) - 20),
                             cv2.FONT_ITALIC, 0.5, (0, 0, 250), 2)
             for p in range(len(old_pos)):
