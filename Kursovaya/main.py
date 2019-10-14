@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import math
-from detectors.detectors import HAAR, HOG, NN
+from detectors.detectors import HAAR, HOG, NN, CARS
 from csv_functions import save_coords, clear_paths
 
 #W, H = 640, 480
@@ -24,7 +24,10 @@ def getind(cur, old):
         
     
 trackers = cv2.MultiTracker()
+#cam = cv2.VideoCapture('videos/Video2.mp4')
+#cam = cv2.VideoCapture('videos/shels.avi')
 cam = cv2.VideoCapture('videos/cars.mp4')
+
 
 i = 0
 
@@ -52,7 +55,9 @@ while True:
         for box in boxes: old_pos.append((box[0], box[1], box[2], box[3]))
         #boxes = HAAR(frame)
         #boxes = HOG(frame)
-        boxes = NN(frame, H, W, 'car')
+        #boxes = NN(frame, H, W, 'car')
+        #boxes = NN(frame, H, W)
+        boxes = CARS(frame)
         pos_temp = old_pos.copy()
         if len(old_pos) > 0:
             for p in range(len(boxes)):
@@ -61,7 +66,7 @@ while True:
                     pos_temp[ind] = boxes[p]
                 else:
                     pos_temp.append(boxes[p])
-                cv2.putText(frame, str(ind), (int(position[0]), int(position[1]) - 20),
+                cv2.putText(frame, str(ind), (int(boxes[p][0]), int(boxes[p][1]) - 20),
                             cv2.FONT_ITALIC, 0.5, (0, 0, 250), 2)
             for p in range(len(old_pos)):
                 if p > len(pos_temp) - 1:
