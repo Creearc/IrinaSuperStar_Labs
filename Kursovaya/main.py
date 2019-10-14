@@ -65,7 +65,8 @@ while True:
                     pos_temp[ind] = position
                 else:
                     pos_temp.append(position)
-                cv2.putText(frame, str(ind), (int(position[0]), int(position[1]) - 20), cv2.FONT_ITALIC, 0.5, (0, 0, 250), 2)
+                cv2.putText(frame, str(ind), (int(position[0]), int(position[1]) - 20),
+                            cv2.FONT_ITALIC, 0.5, (0, 0, 250), 2)
             for p in range(len(old_pos)):
                 if p > len(pos_temp) - 1:
                     break 
