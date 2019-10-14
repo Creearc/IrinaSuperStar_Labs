@@ -15,6 +15,20 @@ def HAAR(image):
      box.append((x1, y1, x2-x1, y2-y1))
   return box
 
+def CARS(image):
+  image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+  cascade = cv2.CascadeClassifier("detectors/CARS.xml")
+  rects = cascade.detectMultiScale(image, scaleFactor=1.1,
+                                     minNeighbors=5, minSize=(30, 30),
+                                     flags = cv2.CASCADE_SCALE_IMAGE)
+                     
+  if len(rects) == 0: return []
+  rects[:,2:] += rects[:,:2]
+  box = []
+  for x1, y1, x2, y2 in rects:
+     box.append((x1, y1, x2-x1, y2-y1))
+  return box
+
 def inside(r, q):
     rx, ry, rw, rh = r
     qx, qy, qw, qh = q
