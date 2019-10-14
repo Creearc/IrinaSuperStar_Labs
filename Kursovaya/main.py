@@ -24,8 +24,6 @@ def getind(cur, old):
         
     
 trackers = cv2.MultiTracker()
-#cam = cv2.VideoCapture('videos/Video2.mp4')
-#cam = cv2.VideoCapture('videos/shels.avi')
 cam = cv2.VideoCapture('videos/cars.mp4')
 
 i = 0
