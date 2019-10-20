@@ -5,10 +5,6 @@ import numpy as np
 from detectors.detectors import analyze
 from csv_functions import save_coords, clear_paths
 
-W, H = 1270, 720
-
-WAIT = 1
-
 def getind(cur, old):
     position = cur
     l = -1
@@ -23,11 +19,33 @@ def getind(cur, old):
     return ind
         
 ap = argparse.ArgumentParser()
-ap.add_argument("-v", "--video", required=True)
-ap.add_argument("-m", "--method", default = "NN")
-ap.add_argument("-c", "--class", default = "person")
+ap.add_argument("-v", "--video", required = True, type = str,
+                help = "path to video file")
+ap.add_argument("-m", "--method", default = "NN", type = str,
+                help = "NN, HAAR, HOG, CARS")
+ap.add_argument("-c", "--class", default = "person", type = str,
+                help = "for NN")
+ap.add_argument("-a", "--angle", default = 125.0, type = float,
+                help = "angle between camera and verticake axe")
+ap.add_argument("-H", "--hight", default = 3.0, type = float,
+                help = "hight of camera position")
+ap.add_argument("-o", "--object_hight", default = 1.75, type = float,
+                help = "hight of objects")
+ap.add_argument("-l", "--lifetime", default = 10, type = int,
+                help = "number of detection to keep position of object if it is not detected")
+ap.add_argument("-d", "--detection_frame", default = 20, type = int,
+                help = "number of frame to detect objects")
+ap.add_argument("-p", "--frame_parameters", default = (1270, 720), type = tuple,
+                help = "number of frame to detect objects")
+ap.add_argument("-w", "--wait", default = 1, type = int,
+                help = "delay between frames")
+
 args = vars(ap.parse_args())
 
+
+W, H = args["frame_parameters"]
+
+WAIT = args["wait"]
 
 trackers = cv2.MultiTracker()
 cam = cv2.VideoCapture(args["video"])
@@ -37,16 +55,16 @@ i = 0
 #F = 28.0 * 102 / 1.7
 #F = 1680.0
 F = 5.5 * 300 / 1.75 # Tur
-alpha = 125.0 * 3.14 / 180
-Hc = 3.0
-Hch = 1.75
+alpha = args["angle"] * 3.14 / 180
+Hc = args["hight"]
+Hch = args["object_hight"]
 
 D = lambda x:  - math.tan(alpha - math.atan((H / 2 - x) / F)) * Hc
-Dx = lambda x, d, y: (W / 2 -x) * ((Hc ** 2 + d ** 2) / ((H / 2 - y) ** 2 + F ** 2)) ** 0.5 
+Dx = lambda x, d, y: - (W / 2 - x) * ((Hc ** 2 + d ** 2) / ((H / 2 - y) ** 2 + F ** 2)) ** 0.5 
 
 boxes = []
 lifes = []
-LIFETIME = 10
+LIFETIME = args["lifetime"]
 
 clear_paths()
 
@@ -54,7 +72,7 @@ while True:
     ret, frame = cam.read()
     if frame is None: break
     frame = cv2.resize(frame, (W, H))
-    if i % 20 == 0:
+    if i % args["detection_frame"] == 0:
         trackers = cv2.MultiTracker()
         old_pos = list()
         for box in boxes: old_pos.append((box[0], box[1], box[2], box[3]))
