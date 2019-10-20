@@ -1,10 +1,10 @@
+import argparse
+import math
 import cv2
 import numpy as np
-import math
-from detectors.detectors import HAAR, HOG, NN, CARS
+from detectors.detectors import analyze
 from csv_functions import save_coords, clear_paths
 
-#W, H = 640, 480
 W, H = 1270, 720
 
 WAIT = 1
@@ -22,12 +22,15 @@ def getind(cur, old):
             ind = i
     return ind
         
-    
-trackers = cv2.MultiTracker()
-#cam = cv2.VideoCapture('videos/Video2.mp4')
-#cam = cv2.VideoCapture('videos/shels.avi')
-cam = cv2.VideoCapture('videos/cars.mp4')
+ap = argparse.ArgumentParser()
+ap.add_argument("-v", "--video", required=True)
+ap.add_argument("-m", "--method", default = "NN")
+ap.add_argument("-c", "--class", default = "person")
+args = vars(ap.parse_args())
 
+
+trackers = cv2.MultiTracker()
+cam = cv2.VideoCapture(args["video"])
 
 i = 0
 
@@ -53,11 +56,9 @@ while True:
         trackers = cv2.MultiTracker()
         old_pos = list()
         for box in boxes: old_pos.append((box[0], box[1], box[2], box[3]))
-        #boxes = HAAR(frame)
-        #boxes = HOG(frame)
-        #boxes = NN(frame, H, W, 'car')
-        #boxes = NN(frame, H, W)
-        boxes = CARS(frame)
+        
+        boxes = analyze(frame, args["method"], W, H, args["class"])
+        
         pos_temp = old_pos.copy()
         if len(old_pos) > 0:
             for p in range(len(boxes)):

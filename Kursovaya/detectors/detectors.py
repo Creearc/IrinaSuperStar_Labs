@@ -18,8 +18,8 @@ def HAAR(image):
 def CARS(image):
   image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
   cascade = cv2.CascadeClassifier("detectors/CARS.xml")
-  rects = cascade.detectMultiScale(image, scaleFactor=1.1,
-                                     minNeighbors=5, minSize=(30, 30),
+  rects = cascade.detectMultiScale(image, scaleFactor=1.3,
+                                     minNeighbors=5, minSize=(25, 25),
                                      flags = cv2.CASCADE_SCALE_IMAGE)
                      
   if len(rects) == 0: return []
@@ -68,3 +68,19 @@ def NN(image, H, W, cl='person'):
       b = detections[0, 0, i, 3:7] * np.array([W, H, W, H])
       box.append((int(b[0]), int(b[1]), int(b[2]-b[0]), int(b[3]-b[1])))
   return box
+
+def analyze(image, method, w = 640, h = 480, cl='person'):
+  boxes = []
+  if method == "NN":
+    boxes = NN(image, h, w, cl)
+  elif method == "HOG":
+    boxes = HOG(image)
+  elif method == "HAAR":
+    boxes = HAAR(image)
+  elif method == "CARS":
+    boxes = CARS(image)
+  return boxes
+
+
+
+  
