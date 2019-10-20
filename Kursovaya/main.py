@@ -45,6 +45,8 @@ D = lambda x:  - math.tan(alpha - math.atan((H / 2 - x) / F)) * Hc
 Dx = lambda x, d, y: (W / 2 -x) * ((Hc ** 2 + d ** 2) / ((H / 2 - y) ** 2 + F ** 2)) ** 0.5 
 
 boxes = []
+lifes = []
+LIFETIME = 10
 
 clear_paths()
 
@@ -66,6 +68,7 @@ while True:
                 if ind != -1:
                     pos_temp[ind] = boxes[p]
                 else:
+                    lifes.append(LIFETIME)
                     pos_temp.append(boxes[p])
                 cv2.putText(frame, str(ind), (int(boxes[p][0]), int(boxes[p][1]) - 20),
                             cv2.FONT_ITALIC, 0.5, (0, 0, 250), 2)
@@ -73,8 +76,16 @@ while True:
                 if p > len(pos_temp) - 1:
                     break 
                 if old_pos[p] == pos_temp[p]:
-                    del pos_temp[p]
+                    if lifes[p] < 1:
+                        del pos_temp[p]
+                    else:
+                        lifes[p] -= 1
+                else:
+                    lifes[p] = LIFETIME
             boxes = pos_temp.copy()
+        else:
+            for p in range(len(boxes)):
+                lifes.append(LIFETIME)
                 
         for box in boxes:
             tracker = cv2.TrackerMOSSE_create()
