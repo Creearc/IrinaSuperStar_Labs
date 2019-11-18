@@ -61,3 +61,5 @@ if __name__ == "__main__":
     for i in Room.time_in_h[X] > 19:
         print("Номер комнаты %d" %(i[0].number))
         print_beautiful(visit(X, i[0].number))
+
+        
