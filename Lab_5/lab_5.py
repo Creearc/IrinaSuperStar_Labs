@@ -43,6 +43,15 @@ def is_late(room):
         else:
             yield k.number, "не", "", ""
 
+
+def is_too_long(room):
+    for k in room:
+        if k.time_in.hour > k.time_out.hour or k.time_out.hour - k.time_in.hour >= 3:
+            yield k.number, "долго", ". Фамилия нарушителя: ", k.visitor
+        else:
+            yield k.number, "приемлимое время", "", ""
+
+
 if __name__ == "__main__":
     r = []
     r.append(Room(103, 'Назарова', (22, 5), (10, 8), 'Рассохин', 'Паспорт'))
@@ -52,3 +61,6 @@ if __name__ == "__main__":
 
     for n, l, e, v in is_late(r):
         print("Комнату %d посетили %s поздно%s%s." % (n, l, e, v))
+
+    for n, l, e, v in is_too_long(r):
+        print("Комнату %d посещали %s%s%s." % (n, l, e, v))
