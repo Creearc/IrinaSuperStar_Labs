@@ -115,15 +115,15 @@ while True:
     ind = 0
     for box in boxes:
         (x, y, w, h) = [int(v) for v in box]
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 1)
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 255, 255), 3)
         
         py = D(h + y)
         px = Dx(x + w / 2, py, h + y)
         save_coords(ind, (str(px)[:5], str(py)[:5], 0.0))
 
-        cv2.putText(frame, str(ind), (x, y - 20), cv2.FONT_ITALIC, 0.5, (0, 0, 250), 2)
-        cv2.putText(frame, str(px)[:5], (x, y), cv2.FONT_ITALIC, 0.5, (0, 0, 250), 2)
-        cv2.putText(frame, str(py)[:5], (x, y + 20), cv2.FONT_ITALIC, 0.5, (0, 0, 250), 2)
+        cv2.putText(frame, str(ind), (x, y ), cv2.FONT_ITALIC, 1, (250, 250, 250), 2)
+        cv2.putText(frame, str(px)[:5], (x, y + 40), cv2.FONT_ITALIC, 1, (250, 250, 250), 2)
+        cv2.putText(frame, str(py)[:5], (x, y + 80), cv2.FONT_ITALIC, 1, (250, 250, 250), 2)
 
         ind += 1
  
