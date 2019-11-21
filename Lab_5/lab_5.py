@@ -64,3 +64,4 @@ if __name__ == "__main__":
 
     for n, l, e, v in is_too_long(r):
         print("Комнату %d посещали %s%s%s." % (n, l, e, v))
+        
